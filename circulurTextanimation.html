@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  border: 4px solid #003A6F;
+  background: #FFFCEC;
+  font-family: 'Arial';
+}
+
+.box {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 30vh;
+  margin: 0 auto;
+  width: 40vh;
+  height: 40vh;
+  border-radius: 50%;
+  /* background-color: #ccc; */
+   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.emblem {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 25vh;
+  margin: 0 auto;
+  width: 50vh;
+  height: 50vh;
+  border-radius: 50%;
+  font-weight: bold;
+  color: #003A6F;
+  animation: spinZ 20s linear infinite;
+  text-align: center;
+  /* background-color: red; */
+}
+
+.emblem span {
+  position: absolute;
+  display: inline-block;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  text-transform: uppercase;
+  font-size: 2vh;
+  transition: all .5s cubic-bezier(0,0,0,1);
+}
+
+@keyframes spinZ {
+  0% {
+    transform: rotateZ(360deg);
+  }
+  100% {
+    transform: rotateZ(0deg);
+  }
+}
+
+    </style>
+</head>
+<body>
+    <div class="emblem"></div>
+    <div class="box"></div>
+</body>
+<script>
+    const Emblem = {
+  init: (el, str) => {
+    // Select the element by the given selector
+    const element = document.querySelector(el);
+
+    // Use provided text or the inner HTML of the element
+    const text = str || element.innerHTML;
+
+    // Clear the element's content
+    element.innerHTML = '';
+
+    // Adjust the radius to control the circular path size
+    const radius = -50; // Negative value makes text rotate outward, positive inward
+
+    // Calculate the angle step based on the number of characters
+    const angleStep = 360 / text.length;
+
+    // Loop through each character in the text
+    text.split('').forEach((letter, i) => {
+      // Create a span for each character
+      const span = document.createElement('span');
+      span.textContent = letter;
+
+      // Calculate the angle in radians and the position
+      const angle = i * angleStep;
+      const radians = angle * Math.PI / 180;
+      const x = radius * Math.cos(radians);
+      const y = radius * Math.sin(radians);
+
+      // Apply the transformations to position and rotate each letter
+      span.style.position = 'absolute';
+      span.style.transform = `translate(${x}px, ${y}px) rotate(${angle + 90}deg)`;
+      span.style.transformOrigin = 'center';
+
+      // Append the span to the parent element
+      element.appendChild(span);
+    });
+  }
+};
+
+// Initialize with the selector and optional string
+Emblem.init('.emblem', "hey my name is Piyush verma and yours? ");
+
+</script>
+</html>
